@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Безопасный переход к оплате...</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #ffffff;
+      color: #333;
+    }
+
+    .loader {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #6200EE;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .text {
+      margin-top: 20px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    #error-text {
+      color: #d32f2f;
+      display: none;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    #loading-zone {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="loading-zone">
+  <div class="loader"></div>
+  <div class="text">Переходим по ссылке...</div>
+</div>
+
+<div id="error-text">
+  Ошибка: Ссылка не найдена. <br> Пожалуйста, вернитесь в приложение и попробуйте снова.
+</div>
+
+<script>
+  (function() {
+    const params = new URLSearchParams(window.location.search);
+    const targetUrl = params.get('url') || params.get('redirectLink');
+
+    const loadingZone = document.getElementById('loading-zone');
+    const errorText = document.getElementById('error-text');
+
+    if (targetUrl) {
+      setTimeout(function() {
+        window.location.replace(targetUrl);
+      }, 750);
+    } else {
+      loadingZone.style.display = 'none';
+      errorText.style.display = 'block';
+    }
+  })();
+</script>
+
+</body>
+
+</html>
